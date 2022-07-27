@@ -16,8 +16,8 @@ frame_support::construct_runtime!(
 		NodeBlock = Block,
 		UncheckedExtrinsic = UncheckedExtrinsic,
 	{
-		System: frame_system::{Module, Call, Config, Storage, Event<T>},
-		VerifiedRecovery: pallet_verified_recovery::{Module, Call, Storage, Event<T>},
+		System: frame_system::{Pallet, Call, Config, Storage, Event<T>},
+		VerifiedRecovery: pallet_verified_recovery::{Pallet, Call, Storage, Event<T>},
 	}
 );
 
@@ -27,7 +27,7 @@ parameter_types! {
 }
 
 impl system::Config for Test {
-	type BaseCallFilter = ();
+	type BaseCallFilter = frame_support::traits::Everything;
 	type BlockWeights = ();
 	type BlockLength = ();
 	type DbWeight = ();
@@ -49,6 +49,8 @@ impl system::Config for Test {
 	type OnKilledAccount = ();
 	type SystemWeightInfo = ();
 	type SS58Prefix = SS58Prefix;
+	type OnSetCode = ();
+	type MaxConsumers = frame_support::traits::ConstU32<16>;
 }
 
 pub struct CreateRecoveryCallFactoryMock;
@@ -56,7 +58,7 @@ impl CreateRecoveryCallFactory<<Test as system::Config>::Origin, <Test as system
     type Call = Call;
 
     fn build_create_recovery_call(_legal_officers: Vec<<Test as system::Config>::AccountId>, _threshold: u16, _delay_period: <Test as system::Config>::BlockNumber) -> Self::Call {
-        Call::System(frame_system::Call::remark(Vec::from([0u8])))
+        Call::System(frame_system::Call::remark{ remark : Vec::from([0u8]) })
     }
 }
 
