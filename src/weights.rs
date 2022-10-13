@@ -14,16 +14,16 @@ pub trait WeightInfo {
 pub struct DefaultWeight<T>(PhantomData<T>);
 impl<T: frame_system::Config> WeightInfo for DefaultWeight<T> {
 	fn create_recovery() -> Weight {
-		(33_904_000 as Weight)
-			.saturating_add(T::DbWeight::get().reads(2 as Weight))
-			.saturating_add(T::DbWeight::get().writes(1 as Weight))
+		Weight::from_ref_time(33_904_000)
+			.saturating_add(T::DbWeight::get().reads(2))
+			.saturating_add(T::DbWeight::get().writes(1))
 	}
 }
 
 impl WeightInfo for () {
 	fn create_recovery() -> Weight {
-		(33_904_000 as Weight)
-			.saturating_add(RocksDbWeight::get().reads(2 as Weight))
-			.saturating_add(RocksDbWeight::get().writes(1 as Weight))
+		Weight::from_ref_time(33_904_000)
+			.saturating_add(RocksDbWeight::get().reads(2))
+			.saturating_add(RocksDbWeight::get().writes(1))
 	}
 }
