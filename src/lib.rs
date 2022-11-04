@@ -26,7 +26,7 @@ pub mod pallet {
 	pub trait Config: frame_system::Config {
 
 		/// Implementation of recovery config creation
-		type CreateRecoveryCallFactory: CreateRecoveryCallFactory<Self::Origin, Self::AccountId, Self::BlockNumber>;
+		type CreateRecoveryCallFactory: CreateRecoveryCallFactory<Self::RuntimeOrigin, Self::AccountId, Self::BlockNumber>;
 
 		/// Query for checking the existence of a closed Identity LOC
 		type LocQuery: LocQuery<Self::AccountId>;
@@ -35,7 +35,7 @@ pub mod pallet {
 		type WeightInfo: WeightInfo;
 
 		/// The overarching event type.
-		type Event: From<Event<Self>> + IsType<<Self as frame_system::Config>::Event>;
+		type RuntimeEvent: From<Event<Self>> + IsType<<Self as frame_system::Config>::RuntimeEvent>;
 	}
 
 	#[pallet::pallet]

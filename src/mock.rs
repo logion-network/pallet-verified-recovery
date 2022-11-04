@@ -31,8 +31,8 @@ impl system::Config for Test {
 	type BlockWeights = ();
 	type BlockLength = ();
 	type DbWeight = ();
-	type Origin = Origin;
-	type Call = Call;
+	type RuntimeOrigin = RuntimeOrigin;
+	type RuntimeCall = RuntimeCall;
 	type Index = u64;
 	type BlockNumber = u64;
 	type Hash = H256;
@@ -40,7 +40,7 @@ impl system::Config for Test {
 	type AccountId = u64;
 	type Lookup = IdentityLookup<Self::AccountId>;
 	type Header = Header;
-	type Event = Event;
+	type RuntimeEvent = RuntimeEvent;
 	type BlockHashCount = BlockHashCount;
 	type Version = ();
 	type PalletInfo = PalletInfo;
@@ -54,11 +54,11 @@ impl system::Config for Test {
 }
 
 pub struct CreateRecoveryCallFactoryMock;
-impl CreateRecoveryCallFactory<<Test as system::Config>::Origin, <Test as system::Config>::AccountId, <Test as system::Config>::BlockNumber> for CreateRecoveryCallFactoryMock {
-    type Call = Call;
+impl CreateRecoveryCallFactory<<Test as system::Config>::RuntimeOrigin, <Test as system::Config>::AccountId, <Test as system::Config>::BlockNumber> for CreateRecoveryCallFactoryMock {
+    type Call = RuntimeCall;
 
     fn build_create_recovery_call(_legal_officers: Vec<<Test as system::Config>::AccountId>, _threshold: u16, _delay_period: <Test as system::Config>::BlockNumber) -> Self::Call {
-        Call::System(frame_system::Call::remark{ remark : Vec::from([0u8]) })
+        RuntimeCall::System(frame_system::Call::remark{ remark : Vec::from([0u8]) })
     }
 }
 
@@ -81,7 +81,7 @@ impl LocQuery<<Test as system::Config>::AccountId> for LocQueryMock {
 impl pallet_verified_recovery::Config for Test {
 	type CreateRecoveryCallFactory = CreateRecoveryCallFactoryMock;
 	type LocQuery = LocQueryMock;
-	type Event = Event;
+	type RuntimeEvent = RuntimeEvent;
 	type WeightInfo = ();
 }
 
